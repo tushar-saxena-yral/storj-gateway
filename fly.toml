@@ -7,11 +7,10 @@ dockerfile = "Dockerfile"
 internal_port = 7777
 force_https = true
 auto_stop_machines = "off"
-[[http_service.machine_checks]]
-  image = "curlimages/curl"
-  entrypoint = ["/bin/sh", "-c"]
-  command = ["curl http://[$FLY_TEST_MACHINE_IP]:7777 | grep 'AccessDenied'"]
-  kill_signal = "SIGKILL"
-  kill_timeout = "5s"
-
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/minio/health/live"
 
